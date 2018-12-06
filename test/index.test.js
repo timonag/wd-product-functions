@@ -2,16 +2,16 @@ const { expect } = require('chai');
 const { processProductUpdate } = require('../index');
 
 describe('DW product function should', function() {
-	describe('return an error on', function(){
+	describe('throw an error on', function(){
 		it('empty event', function(){
-			expect(processProductUpdate(null)).to.be.an.instanceof(Error).and.to.have.property('message', 'Event data is not valid. Either "data" buffer or "attributes" hash must be specified.');
+			expect(() => processProductUpdate(null)).to.throw(Error, 'Event data is not valid. Either "data" buffer or "attributes" hash must be specified.');
 		});
 		it('both empty data and attributes properties', function(){
-			expect(processProductUpdate({})).to.be.an.instanceof(Error).and.to.have.property('message', 'Event data is not valid. Either "data" buffer or "attributes" hash must be specified.');
+			expect(() => processProductUpdate({})).to.throw(Error, 'Event data is not valid. Either "data" buffer or "attributes" hash must be specified.');
 		});
 		it('data property contains invalid JSON', function(){
 			const data = Buffer.from("this is a test").toString('base64').slice(2);
-			expect(processProductUpdate({ data })).to.be.an.instanceof(SyntaxError);
+			expect(() => processProductUpdate({ data })).to.throw(SyntaxError);
 		});
 	});
 	describe('return correct object', function(){

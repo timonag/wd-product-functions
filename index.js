@@ -6,7 +6,7 @@
  */
 exports.processProductUpdate = (event, context) => {
 	if(!event || (!event.data && !event.attributes)) {
-		return new Error('Event data is not valid. Either "data" buffer or "attributes" hash must be specified.');
+		throw new Error('Event data is not valid. Either "data" buffer or "attributes" hash must be specified.');
 	}
 	if(event.data && event.data.length) {
 		let messageJson = {};
@@ -14,7 +14,7 @@ exports.processProductUpdate = (event, context) => {
 			const pubsubMessage = Buffer.from(event.data, 'base64').toString();
 			messageJson = JSON.parse(pubsubMessage);
 		} catch(err) {
-			return err;
+			throw new SyntaxError('Data property contains invalid json');
 		}
 		return messageJson;
 	} else if (event.attributes) {
