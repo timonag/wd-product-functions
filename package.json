@@ -1,0 +1,24 @@
+{
+  "name": "wd-product-functions",
+  "version": "0.0.1",
+  "description": "Google functions as adapters between WD and CT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timonag/wd-product-functions.git"
+  },
+  "keywords": [
+    "node",
+    "gcp",
+    "functions"
+  ],
+  "author": "Artsiom Halubotski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timonag/wd-product-functions/issues"
+  },
+  "homepage": "https://github.com/timonag/wd-product-functions#readme"
+}
