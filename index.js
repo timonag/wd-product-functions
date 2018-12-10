@@ -53,6 +53,7 @@ function _prepareProductDraft(event) {
  *
  * @param {!Object} event Event payload.
  * @param {!Object} context Metadata for the event.
+ * @returns	{Promise}
  */
 function processProductUpdate(event, context) {
 
@@ -61,12 +62,9 @@ function processProductUpdate(event, context) {
 	const productsRequest = {
 		uri: `/${projectKey}/products`,
 		method: 'POST',
-		body: JSON.stringify(),
+		body: JSON.stringify(productDraft),
 	};
-	client.execute(productsRequest)
-		.then(response => console.dir(response))
-		.catch(error => console.dir(error.body.errors));
-
+	return client.execute(productsRequest);
 };
 
 exports.processProductUpdate = processProductUpdate;
