@@ -25,5 +25,10 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0"
+  },
+  "dependencies": {
+    "@commercetools/sdk-client": "^1.5.10",
+    "@commercetools/sdk-middleware-auth": "^4.0.10",
+    "@commercetools/sdk-middleware-http": "^4.0.9"
   }
 }
