@@ -1,0 +1,22 @@
+{
+	"statusCode": 400,
+	"message": "A duplicate value '\"1111111111-111\"' exists for field 'key'.",
+	"errors": [
+		{
+			"code": "DuplicateField",
+			"message": "A duplicate value '\"1111111111-111\"' exists for field 'key'.",
+			"duplicateValue": "1111111111-111",
+			"field": "key"
+		},
+		{
+			"code": "DuplicateField",
+			"message": "A duplicate value '\"english-slug-111\"' exists for field 'slug.en' on 'product:e40c51eb-6ec1-485d-a169-710e9abe3449'.",
+			"duplicateValue": "english-slug-111",
+			"conflictingResource": {
+				"typeId": "product",
+				"id": "e40c51eb-6ec1-485d-a169-710e9abe3449"
+			},
+			"field": "slug.en"
+		}
+	]
+}

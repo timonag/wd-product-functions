@@ -1,4 +1,5 @@
 const nock = require('nock');
+const { simpleProductResponse, simpleProductDuplicateResponse, http500Response } = require('../data');
 
 before(function(){
 	/**
@@ -19,9 +20,34 @@ before(function(){
 	/**
 	 *	API calls
 	 */
+	const createdProductsIds = new Set();
 	const productsApi = nock('https://api.commercetools.co:443')
 		.persist()
 		.post('/tb-test2/products')
-		.reply(201, {});
+		.reply(function(uri, requestBody) {
+			const { key } = requestBody;
+
+			// Special Key for 500's responses
+			if (key === '1111111111-500') {
+				return [
+					500,
+					http500Response
+				];
+			}
+
+			// Keep tracking of already called products
+			if (!createdProductsIds.has(key)) {
+				createdProductsIds.add(key);
+				return [
+					201,
+					simpleProductResponse
+				];
+			} else {
+				return [
+					400,
+					simpleProductDuplicateResponse
+				];
+			}
+		});
 });
 

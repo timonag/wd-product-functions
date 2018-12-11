@@ -1,0 +1,57 @@
+{
+	"id": "e40c51eb-6ec1-485d-a169-710e9abe3449",
+	"version": 1,
+	"lastMessageSequenceNumber": 1,
+	"createdAt": "2018-12-11T07:31:37.049Z",
+	"lastModifiedAt": "2018-12-11T07:31:37.049Z",
+	"productType": {
+		"typeId": "product-type",
+		"id": "6e396267-bc83-4842-a822-cb3f542fd7e3"
+	},
+	"catalogs": [],
+	"masterData": {
+		"current": {
+			"name": {
+				"en": "English name 111"
+			},
+			"categories": [],
+			"categoryOrderHints": {},
+			"slug": {
+				"en": "english-slug-111"
+			},
+			"masterVariant": {
+				"id": 1,
+				"prices": [],
+				"images": [],
+				"attributes": [],
+				"assets": []
+			},
+			"variants": [],
+			"searchKeywords": {}
+		},
+		"staged": {
+			"name": {
+				"en": "English name 111"
+			},
+			"categories": [],
+			"categoryOrderHints": {},
+			"slug": {
+				"en": "english-slug-111"
+			},
+			"masterVariant": {
+				"id": 1,
+				"prices": [],
+				"images": [],
+				"attributes": [],
+				"assets": []
+			},
+			"variants": [],
+			"searchKeywords": {}
+		},
+		"published": false,
+		"hasStagedChanges": false
+	},
+	"key": "1111111111-111",
+	"catalogData": {},
+	"lastVariantId": 1
+}

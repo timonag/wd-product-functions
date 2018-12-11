@@ -1,10 +1,12 @@
 const { expect } = require('chai');
+const moment = require('moment');
 const { _api } = require('../index');
 const { _prepareProductDraft } = _api;
 const { simpleProduct } = require('./data');
 
 describe('Internal API', function() {
 	describe('prepare product draft function should', function() {
+		const bufferedSimpleProduct = Buffer.from(JSON.stringify(simpleProduct)).toString('base64');
 		it('be defined', function(){
 			expect(_api).to.have.property('_prepareProductDraft');
 			expect(_api._prepareProductDraft).to.be.an.instanceof(Function);
@@ -21,10 +23,15 @@ describe('Internal API', function() {
 				expect(() => _prepareProductDraft({ data })).to.throw(SyntaxError);
 			});
 		});
+		describe('handle message timestamp', function() {
+			it('older than defined', function() {
+				const timestamp = moment().subtract(40, 'seconds').toISOString();
+				expect(() => _prepareProductDraft({ data: bufferedSimpleProduct }, { timestamp, eventId: '11gqifec4ou' })).to.not.throw();
+			});
+		});
 		describe('return correct object', function(){
 			it('from parsed data property', function(){
-				const data = Buffer.from(JSON.stringify(simpleProduct)).toString('base64');
-				expect(_prepareProductDraft({ data })).to.deep.include(simpleProduct);
+				expect(_prepareProductDraft({ data: bufferedSimpleProduct })).to.deep.include(simpleProduct);
 			});
 		});
 	});

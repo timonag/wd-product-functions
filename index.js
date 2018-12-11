@@ -8,6 +8,8 @@ const clientId = process.env.CT_CLIENT_ID;
 const clientSecret = process.env.CT_CLIENT_SECRET;
 const scopes = [process.env.CT_SCOPES];
 
+const EVENT_MAX_AGE = 20000;
+
 // Setup CT middlewares
 const authMiddleware = createAuthMiddlewareForClientCredentialsFlow({
 	host: 'https://auth.commercetools.co',
@@ -31,10 +33,18 @@ const client = createClient({
 /**
  *	Function prepares product from PubSub message
  *	@param	{Object}	event	MessagePayload
+ *	@param	{!Object}	context	Metadata for the event.
  *	@returns	{ProductDraft}
  *	@private
  */
-function _prepareProductDraft(event) {
+function _prepareProductDraft(event, context = {}) {
+	// Computing message age to stop retries
+	const eventAge = Date.now() - Date.parse(context.timestamp);
+	if (!!eventAge && eventAge > EVENT_MAX_AGE) {
+		console.log(`Dropping event ${context.eventId} with age ${eventAge} ms.`);
+		return;
+	}
+
 	if(!event || !event.data) {
 		throw new Error('Event object is not valid. "data" buffer must be specified.');
 	}
@@ -57,14 +67,25 @@ function _prepareProductDraft(event) {
  */
 function processProductUpdate(event, context) {
 
-	const productDraft = _prepareProductDraft(event);
+	const productDraft = _prepareProductDraft(event, context);
+	// If a product is empty that means premature exit of the function, abort GCF as no retries are needed here.
+	if(!productDraft) {
+		return;
+	}
 
 	const productsRequest = {
 		uri: `/${projectKey}/products`,
 		method: 'POST',
 		body: JSON.stringify(productDraft),
 	};
-	return client.execute(productsRequest);
+	return client.execute(productsRequest)
+		.catch(err => {
+			if (err.name === 'BadRequest') {
+				console.error(new Error(err));
+				return err;
+			}
+			throw new Error(err);
+		});
 };
 
 exports.processProductUpdate = processProductUpdate;
