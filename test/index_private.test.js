@@ -1,5 +1,7 @@
 const { expect } = require('chai');
 const moment = require('moment');
+const sinon = require('sinon');
+
 const { _api } = require('../index');
 const { _prepareProductDraft } = _api;
 const { simpleProduct } = require('./data');
@@ -25,8 +27,16 @@ describe('Internal API', function() {
 		});
 		describe('handle message timestamp', function() {
 			it('older than defined', function() {
+				// Setup console.log stub
+				const logStub = sinon.stub(console, 'log');
+				logStub.withArgs(sinon.match('Dropping event 11gqifec4ou')).returns(undefined);
+				logStub.callThrough();
+
 				const timestamp = moment().subtract(40, 'seconds').toISOString();
 				expect(() => _prepareProductDraft({ data: bufferedSimpleProduct }, { timestamp, eventId: '11gqifec4ou' })).to.not.throw();
+
+				// Restore console.log stub
+				console.log.restore();
 			});
 		});
 		describe('return correct object', function(){

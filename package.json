@@ -27,7 +27,8 @@
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
     "nock": "^10.0.4",
-    "nyc": "^13.1.0"
+    "nyc": "^13.1.0",
+    "sinon": "^7.2.0"
   },
   "dependencies": {
     "@commercetools/sdk-client": "^1.5.10",
