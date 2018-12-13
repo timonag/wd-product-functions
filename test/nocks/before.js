@@ -1,6 +1,8 @@
 const nock = require('nock');
 const { simpleProductResponse, simpleProductDuplicateResponse, http500Response } = require('../data');
 
+const { CT_PROJECT_KEY } = process.env;
+
 before(function(){
 	/**
 	 *	Authorizarion
@@ -14,7 +16,7 @@ before(function(){
 				'access_token': 'hW5sms-KYPaajUrMNEjTsylM0fAwGfcg',
 				'token_type': 'Bearer',
 				'expires_in': 172395,
-				'scope': 'manage_project:tb-test2'
+				'scope': `manage_project:${CT_PROJECT_KEY}`
 			}
 		);
 	/**
@@ -23,7 +25,7 @@ before(function(){
 	const createdProductsIds = new Set();
 	const productsApi = nock('https://api.commercetools.co:443')
 		.persist()
-		.post('/tb-test2/products')
+		.post(`/${CT_PROJECT_KEY}/products`)
 		.reply(function(uri, requestBody) {
 			const { key } = requestBody;
 

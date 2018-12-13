@@ -1,12 +1,14 @@
 {
 	"key": "1111111111-111",
 	"name": {
-		"en": "English name 111"
+		"en": "English name 111",
+		"de": "German name 111"
 	},
 	"productType": {
-		"id": "6e396267-bc83-4842-a822-cb3f542fd7e3"
+		"id": "bf90e895-deaa-4b9d-aa5d-f7ae6ee4c3b4"
 	},
 	"slug": {
-		"en": "english-slug-111"
+		"en": "english-slug-111",
+		"de": "german-slug-111"
 	}
 }
