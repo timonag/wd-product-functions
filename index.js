@@ -88,7 +88,41 @@ function processProductUpdate(event, context) {
 		});
 };
 
+/**
+ * Cloud Pub/Sub message processor to convert CT product with other products with same StyleId into DW compatible format.
+ *
+ * @param {!Object} event Event payload.
+ * @param {!Object} context Metadata for the event.
+ * @returns	{Promise}
+ */
+function transformExportedProduct(event, context) {
+
+	const productSource = _prepareProductDraft(event, context);
+	// If a product is empty that means premature exit of the function, abort GCF as no retries are needed here.
+	if(!productSource) {
+		return;
+	}
+	const styleId = productSource.productProjection.masterVariant.attributes.find(attr => attr.name === 'styleID').value;
+
+	const productsByStyleIdRequest = {
+		uri: `/${projectKey}/product-projections?where=variants(attributes(name="styleID" and value="${styleId}"))`,
+		method: 'GET',
+	};
+	return client
+		.execute(productsByStyleIdRequest)
+		.then(resp => {
+			console.log(resp);
+			const products = resp.body.results;
+			console.log(products.length);
+		})
+		.catch(err => {
+			console.error(new Error(err));
+			return err;
+		});
+};
+
 exports.processProductUpdate = processProductUpdate;
+exports.transformExportedProduct = transformExportedProduct;
 exports._api = {
 	_prepareProductDraft,
 }
