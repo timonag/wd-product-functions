@@ -11,6 +11,11 @@ podTemplate(label: label, containers: [
         sh 'npm install'
       }
     }
+    stage('Test') {
+      container('node') {
+        sh 'npm test'
+      }
+    }
     stage('Archive') {
       zip archive: true, zipFile: 'tbpim-ct-functions.zip'
     }
