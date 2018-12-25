@@ -1,5 +1,5 @@
---reporter mocha-junit-reporter
---reporter-options mochaFile=./reports/junit.xml
+--reporter mocha-multi-reporters
+--reporter-options configFile=./test/reportersConfig.json
 ./test/nocks/before
 ./test/nocks/after
 ./test/**/*.test.js
