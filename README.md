@@ -15,3 +15,5 @@ $ npm i -g mocha
 
 ## Environment
 Set CT access details environment variables: *CT_PROJECT_KEY*, *CT_CLIENT_ID*, *CT_CLIENT_SECRET*, *CT_SCOPES*
+
+## Pipeline
